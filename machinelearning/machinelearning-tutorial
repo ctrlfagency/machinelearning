@@ -400,13 +400,7 @@ L'apprentissage non supervisé est utiliser pour organiser des données en group
 
 Le cocktail party problem est constitué de 2 personne parlant au meme endroit et comprenant 2 micro à 2 différentes distance des conferencier , le probleme sera de synchroniser les deux paroles, ensuite de règler automatiquement le son.
 
-https://share.coursera.org/wiki/index.php/ML:Main
 
-La régression linéaire 
-https://www.coursera.org/learn/machine-learning/supplement/Mc0tF/linear-regression-with-one-variable
-
-Wiki sur le tp régression linéaire
-https://share.coursera.org/wiki/index.php/ML:Linear_Regression_with_One_Variable
 
 Table des symboles mathématiques
 https://fr.wikipedia.org/wiki/Table_des_symboles_math%C3%A9matiques
@@ -444,7 +438,6 @@ Donc pour l'entrée 1 de notre hypothèse, y sera 4.
 
 La fonction coût
 Nous pouvons mesurer la précision de notre fonction hypothètique en utilisant une fonction coût. Celle-ci récupère la moyenne (plus optimisée= de tout les résultats de l'hypothèse avec les entrées de x comparées aux sorties de y.
-Voici la fonction hypothétique coût.
  
 
 
