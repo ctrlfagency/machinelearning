@@ -1,0 +1,500 @@
+Tutorial MACHINELEARNING*
+*************************
+premierement
+installer octave
+sudo apt-get update && sudo apt-get install octave
+
+Ou matlab...
+
+-----------------------
+Tuto matlab
+Pour créé un script cliquer sur le bouton "create a script" en haut a gauche.
+pour executer click sur "run"
+Le résultat peut etre vu dans la fenetre de commande sur l'espace de travail.
+pour 
+>> x = 3
+Dans matlab le signe = n'est pas un opérateur d'assignement de variable, celui ci sert à évaluer la syntaxe.
+Pour assigner une variable cela doit commencer par une lettre et cela peut contenir seulement des lettre en minuscules des underscores _  et des nombres.C'est sensible à la casse.
+
+Dans matlab pi s'écrit pi les variable s'éxecutent de manière séquentielle de haut en bas. La semicolon ; permet la suppression des output de la ligne sur laquelle celle-ci est assigné.
+
+Tuto 4 :
+L'ordre des opération est tel : 
+Parentheses, exponentielles, Multiplication et Divisions, Addition et Soustractions
+multiplications = *
+divisions = /
+additions soustractions = + -
+exponentiel = exp
+la puissance = ^
+
+Il est important de bien utiliser les parentheses pour respecter l'ordre de calcul des variable dans le bon sens.
+
+Exemple 1 :
+x = 1.5
+dt = 0.1
+f = (cos(x+dt)-2*cos(x-dt))/(2*dt)
+f = cos(x+dt)-2*cos(x-dt)/(2*dt)
+
+Exemple 2 :
+x=2.3
+x0=1
+g=exp(-(x-x0)^2/2)
+
+tuto 5 Les fonctions mathématiques
+la syntaxe :
+cosinus = cos(b)
+sinus = sin(b)
+tangente = tan(b)
+logarythme népérien = ln(b)
+logarythme  base 10 = log10(b)
+logarythme  base 2  = log2(b)
+exponentielle = exp(b)
+racine carré = sqrt(b)
+racine d'un nombre = nthroot(b,n)
+
+par exemple (pas sur)
+a = log10(b)
+est équivalent à
+y=f(x)
+
+TUTO 6
+un vecteur est une suite de nombres sur une seule ligne ou colonne
+la syntaxe du vecteur est par exemple pour créé un row vector(sur une ligne) séparer les nombres par des virgules
+vRow = [3, -2, 0.5 ,-2 ,-7]
+Pour créer un vecteur colonne et le stocker comme variable séparer les nombres avec des points virgules(semicolons)
+vCol = [3; -2; 0.5 ;-2 ;-7]
+
+Tuto 7 accèder aux éléments d'un vecteur
+Pour accèder aux éléments d'un vecteur il est possible d'utiliser l'index (similaire au offset )
+v représente un vecteur de 5 éléments, il est alors possible d'ajouter de supprimer ou d'effectuer des opérations sur les différents éléments du vecteur de la manière suivante.
+v=[5;2;-1;0;4]
+a=v(4)
+permet d'accèder au 4eme élément du vecteur v (index4)
+l'opérateur d'assignement est alors le =
+v(4)=7
+Permet d'assigné 
+v=[5;2;-1;7;4]
+Pour ajouter un nombre dans le vecteur de colonne
+v(6) = 2
+Renvoi 
+v=[5;2;-1;7;4;2]
+L'index en lui meme peut devenir une variable à son tour
+cette commande alors soustrait le 3eme element avec l'élément précédent
+n = 3
+dv = v(n)-v(n-1)
+renvoi
+dv=-1-2
+
+Tuto 8
+Combiner les variables
+x=1
+x0=2
+z=1+2*(x-x0)+(x-x0)^2
+Désormais on souhaite que la variable x ait plusieurs valeurs. Considèrons le vecteur v
+v=[1;1.5;2;2.5;3]
+Pour tout multiplier par 3 et stocker le résultat dans la variable b
+a=3
+b=a*v
+Note : de cette manière deux éléments peuvent etre additionnés , soustraits si et seuelement si ce 2 éléments ont la même taille, un vecteur contenant 6 variables ne peut être opéré avec un vecteur contenant 5 variable .Il est alors possible d'utiliser cette commande (pour multiplier par 3 toutes les variables contenues dans le vecteur)
+c=v+a*ones(size(v))
+Commande équivalente
+d=v+a
+Pour assigner d matlab créé automatiquement le vecteur en le multipliant avec le scalaire afin qu'il ait la taille appropriée.
+e=v^2 
+e=v*v
+Risque de renvoyer une erreur car on ne multiplie pas une matrice par elle meme.
+par contre c'est possible avec la syntaxe suivante (element wise power qui est représenté par un point) de faire v au carré:
+e=v.^2
+Avec l'opération suivante matlab créé automatiquement le vecteur avec la bonne taille permettant de calculer la soustraction de 2 qui est assigné par x0 au vecteur v 
+delta = v-x0
+Ainsi il est possible d'effectuer le calcul de z qui à la base ne contenait qu'une seule variable assignée grâce au vecteur v
+z=1+2*delta+delta.^2
+Le résultat est alors enregistré dans z qui s'est tranformé en vecteur.
+
+Tuto 9
+Pour transformer un vecteur en ligne en vecteur colonne on va devoir utiliser l'opération transpose
+exemple:
+v=[2 -1 8.5 6 19]
+pour transformer et préserver l'ordre des éléments.
+exemple
+c=v';
+
+Tuto 10
+Les vecteur de séquence (uniformly spaced vector) de distance/espace/temps égales.
+Avec t1 premiere valeur et tN derniere value et delta t l'intervalle de tems/distance/espace entre chaque valeurs.
+Exemple on créé un vecteur dont la premiere valeur est 2 et dont la derniere valeur est 3 puis l'espace entre chaque valeur est de 0.2
+[2.0 t2 t3 etc.. tN-1 3.0]
+Dans matlab on fait : 
+v=2:0.2:3
+Attention dans l'intervalle suivant la derniere valeur 3.5 n'est pas incluse car elle ne correspondra pas a l'interval 0.2 assigné dans la variable vecteur v
+v=2:0.2:3.5
+Il existe une commande raccourcie pour créer un séquence dans l'exemple suivant pour créé une séquence de chiffres entre 2 et 7
+y=2:1:7
+Peut s'écrire : 
+y=2:7
+
+Tuto 11
+Les vecteurs de séquences (uniformly spaced vectors) utilisant la fonction linspace
+
+La fonction linspace permet de segmenter un segment en différentes partie.
+Dans l'exemple suivant 0 est la valeur de départ, 3 est la valeur de fin et 8 le nombre de segmentation entre les 2 valeurs (de départ et finale).
+v=linspace(0,3,8)
+
+Tuto 12 
+Graphique linéaire (line plot), avec les coordonnées sur l'axe x y
+Pour créer un graphique voici un exemple :
+x=[0,1,1.5,2,3]
+y=[1,0,0.25,1,4]
+plot(x,y)
+
+Il est important dans l'exemple précédent que les deux entrées aient le même nombre de valeurs (x et y). On peut rajouter des marqueurs dans la 3ème entrée , celle ci peut contenir des caractères comme 'm:s' pour magenta et s pour square markers.
+x=[0,1,1.5,2,3]
+y=[1,0,0.25,1,4]
+plot(x,y,'m:s')
+
+Green dashed lines with star markers.
+plot(x,y,'g--*')
+Red solid line with no markers
+plot(x,y,'r-')
+
+Tuto 13
+Annoter ses graphs
+x=-1:0.1:1
+y=x.^2
+plot(x,y)
+Nommer les Axes x et Y de manière personnalisée.
+xlabel et ylabel
+Ajouter un titre 
+title
+Ajouter une legende
+legend
+
+Exemple
+xlabel('time [s]')
+ylabel('amplitude')
+title('mon graphique')
+legend('y(t)')
+
+grid et annotations
+
+Tuto 14 
+Créer des matrices
+Une matrice est une collection de nombres individuels arrangés dans des lignes et/ou des colonnes distincte.
+
+Pour créer une matrice dans MATLAB on fait de cette manière :
+On créé la premiere ligne en séparant avec des virgules le point virgule sert à indiquer le changement de row (ligne en francais)
+A=[-4,1.9,-3.2,12;-0.25,2,9,0.3;0.1,7,-1,5]
+
+Attention ! Chaque ligne doit contenir le même nombre de valeurs.
+
+Tuto 15
+Array creation function ( fonction de création de tableaux)
+rand ones eye randi randn zeros toeplitz vander diag magic hilb
+ 
+rand sert à généré un tableau de valeur aléatoire entre 0 et 1 à 4 décimales ex: 0.9134
+ 
+La fonction ones sert à créer un tableau de 1
+La fonction eye renvoi une 'identity matrix' 
+exemple:
+I10 = eye(10)
+Renvoi 10 colonnes et lignes 
+I10 =
+
+     1     0     0     0     0     0     0     0     0     0
+     0     1     0     0     0     0     0     0     0     0
+     0     0     1     0     0     0     0     0     0     0
+     0     0     0     1     0     0     0     0     0     0
+     0     0     0     0     1     0     0     0     0     0
+     0     0     0     0     0     1     0     0     0     0
+     0     0     0     0     0     0     1     0     0     0
+     0     0     0     0     0     0     0     1     0     0
+     0     0     0     0     0     0     0     0     1     0
+     0     0     0     0     0     0     0     0     0     1
+
+La commande 
+z= zeros(10,3)
+renvois un tableau de 3 lignes contenant 10 chiffres 0
+Random integers :
+a1 = randi([0,2],3,4)
+renvoi 
+a1 =
+
+     2     2     0     2
+     2     1     1     0
+     0     0     2     2
+randn renvoi une variable aléatoire
+a2 = randn(1,7)
+a2 =
+    0.7254   -0.0631    0.7147   -0.2050   -0.1241    1.4897    1.4090
+
+diag renvoi un valeur transcendante comme la fonction eye
+a3=diag([-1,2,3])
+a3 =
+    -1     0     0
+     0     2     0
+     0     0     3
+
+TUTO 16
+Accèder à des éléments d'un tableau
+Soit M une matrice , pour accèder aux éléments d'une matrice M on fait de la sorte : 
+s1=M(3,2)
+Ainsi on déplace l'offset (appelé index) de haut en bas à la 3 eme valeur et à la 2eme ligne.
+Pour extraire de multiples valeur d'une matrice on fait de la sorte : 
+s2=M([2,3],2)
+ Pour extraire une séquence de multiples valeur d'une matrice on utilise l'opérateur colonne : 
+s3=M(2:4,2)
+et pour extraire toute la ligne de colonne 2 on fait de la maniere suivante : 
+s4=M(1:4,2)
+Pour extraire une colonne complète (la 2) il existe une commande raccourci en remplacant le row index par une colonne solitaire(single column):
+s4=M(:,2)
+
+Tuto 17
+Apprendre la taille et la longueur des tableaux(array size and length)
+Soit u un vecteur, comment déterminer le nombre d'éléments contenus dans u si u est un vecteur colonne ou un vecteur row? on peut calculer le nombre d'éléments contenus dans u avec length : 
+L1=length(u)
+Le résultat sera un nombre simple ou scalaire égal au nombre d'éléments contenu dans u. Maintenant soit m1 une matrice il est possible de calculer le nombre d'entrées indexées de cette manière :
+L2=length(m1)
+Le résultat est alors le nombre maximum de rows ou colonnes
+On peut calculer le nombre de rows et de colonnes d'un tableau (soit  l3=length(m2)   ) avec la fonction size:
+s1 = size(u)
+La fonction size fonctionne avec un tableau d'entrée et renvoi 2 valeur correspondant sur lesquel le premier numero est le nombre de rows(lignes) et le second nombre est le nombre de colonnes contenu dans le tableau d'entrée (input array).
+Alors il est possible de déterminer le nombre de colonnes et lignes a l'aide de la fonction size , pour obtenir le nombres de rows et de lignes exemple , de cette maniere il est possible de déduire si une variable correspond à une matrice , un row vector ou une colonne: 
+s2=size(m1)
+s3=size(m2)
+
+TUTO 18
+La concaténation de tableaux, 
+Soit a et b deux matrices crées dans matlab.
+A=[8,1,6;3,5,7;4,9,2]
+B=rand(3)
+Pour combiner un tableau existant d'éléments pour créé un tableau plus grand.
+On va utiliser A et B pour créé une matrice plus large C (contenant A et B), on utilise les crochets pour la concaténations des scalaires [3 -2 7] , on peut horizotalement et verticlament créé des vecteurs /colonnes grace au signes , et ; de la même manière on peut le faire pour concaténer les 2 tableaux en 1 seul : 
+C=[A,B] horizontalement 
+et 
+C=[A;B] verticalement
+
+TUTO 19
+apprendre les multiplications de matrices
+Il est possible de multiplier une matrice à un vecteur de cette manière * : 
+A=[4,2,0,1;3,1,-4,0;-1,0,3,6]
+x=[-1;2;-2;0]
+b=A*x
+
+TUTO 20
+Utilisation de l'éditeur MATLAB
+Dans l'éditeur matlab les commentaires sont indiqués par de % au début de la ligne
+En cliquant sur le triangle Run on execute le script.
+Pour intégrer l'editeur a l'espace de travair on clique sur Dock editor.
+Il est possible de créér des sections de code en double %% les commentaires dans l'éditeur.
+Lorsque une commande bug, selectionner avec la souris puis HELPS en click droit.
+
+TUTO 21 
+Les opérateurs logiques
+Si a est supérieur a 3
+r= a>3
+Réponse true 1 or false 0
+Pour déterminer si a est supérieur à 3 et inférieur à 10 :
+r=a>3 & a<10
+& et
+== égal à ~= pas égal à | ou
+>= supérieur ou égal <= inférieur ou égal 
+~ pas
+
+TUTO 22
+La sélection de données conditionnelles
+pour extraire des éléments d'un tableau basé sur certains critères , en considérant le tableau(array) v contenant une dizaine de valeur un signal par exemple, ou va devoir trier les données pour les extraire , avec un seuil personnalisé, par exemple pour la valeur v <0.005 on démarre par entrer la commande : 
+I=v<0.005
+En résultera un tableau de la meme taille que v avec 1 pour true et 0 pour false.
+On peut désormais utiliser l'array I pour accèder à des éléments spécifiques contenus dans v
+r=v(I)
+ou 
+r=v([1 5 7])
+il vaut mieux utiliser la premiere solution qui pour I associe l'index des résultat sous forme d'un tableau.
+ainsi r devient un tableau numérique contenant les 3 variables résultant de la premiere condition.
+Pour modifier les éléments sélectionnés on reprends I 
+I=v<0.005
+Pour y associer une valeur scalaire comme 0 par exemple
+v(I)=0
+
+TUTO 23 
+IF et ELSE
+dans le calcul suivant avec la formule mathématique
+	1-x,x<0
+f(x)= {2x,x>=0
+
+on code : 
+if x<0
+	f = 1-x
+end
+note:un if peut contenir 1 ou plusieur itérations if end à la suite.
+pour complèter le calcul de l'exemple on fait :
+if x<0
+	f = 1-x
+else
+	f = 2*x
+end
+
+TUTO 24
+les boucles FOR
+pour réduire les itérations
+y(1) = 1
+n=1
+y(n+1) = y(n)-0.1*y(n)
+n=2
+y(n+1) = y(n)-0.1*y(n)
+n=3
+y(n+1) = y(n)-0.1*y(n)
+etc... jusqu'a  n = 7
+On va utiliser une boucle for pour faire jaillir le vecteur du résultat
+y(1)=1;
+for n=1:6
+	y(n+1)=y(n)-0.1*y(n)
+end
+
+TUTO 25
+Les boucles WHILE
+On investi 1000 dollar avec un taux de 8%
+amount(1)=1000;
+r=0.08;
+p=1;
+Qui est revenu en 1 an
+l'année d'après
+amount(p+1) = amount(p)*(r+1);
+Si on continue la démarche 
+on devra éxecuter souvent la formule
+p=p+1
+amount(p+1) = amount(p)*(r+1);
+etc...
+
+avec while 
+amount(1)=1000;
+r=0.08;
+p=1;
+while amount(p)<2000
+	amount(p+1) = amount(p)*(r+1);
+	p=p+1;
+end
+Note: la variable p est assignée avant le while, tant que la condition p=1 est vraie le script est executé.
+Amount renvoi alors un vecteur contenant les résultats annuels à partir de 1000 à 2000.
+
+
+TUTO
+Apprentissage supervisé 
+Apprendre à identifier les problèmes de régression
+des problèmes de classification.
+Dans un problème de régression on va tenter de prédire une valeur de sortie de type continue - dans le cas des prix de locations par rapport à la taille en m².
+
+Tenter de prédire les cancers du sein en classifiant les tumeurs bégnine ou maligne.
+Avec en abscisse la taille de la tumeur et en ordonnée oui ou non si elle est maligne.
+On a donc un problème de classification qui se caractérise par la prédiction d'une valeur de sortie 0 ou 1 (voir plus)
+Ainsi on peut représenter le problème de classification avec seuelement un Axe et différents symboles permettant de classifier le type de tumeur. Un autre exemple  est possible en classant un sur un graphique l'age par rapport à la taille de la tumeur ainsi on obtiendra un nuage de point et un segment permettant de séparer les points représentant les tumeurs bénigne des tumeurs malignes en fonction de l'age( qui est placé en ordonné) et le type de tumeurs en abscisse.
+
+Un nombre infini de classe pourra alors donné naissance à un problème de classification par exemple comparant l'uniformité de la taille de la cellule , l'uniformité de la form de la cellule.
+
+TUTO Unsupervised learning
+Dans le cas d'un clustering algorythm , on a 2 configuration de données représenté par des cercles de tailles égales sur un graphique, notre travail sera de les classifier dans des cercles plus larges permettant de les englober. 
+Un algorythme de clustering permettant d'identifier les news par type dans google est alors utiliser pour classifier les news.
+
+La visualisation de l'adn en rayon multicolore est aussi un probleme qui peut etre résolu a l'aide d'un algorythme de clustering. Comprenant certains gènes de multiples couleurs.
+L'apprentissage non supervisé est utiliser pour organiser des données en groupes.Comme des serveurs d'ordinateurs ensemble. Utilisé aussi pour regrouper les clients dans un segment de marché (sur un diagramme par exemple). 
+
+Le cocktail party problem est constitué de 2 personne parlant au meme endroit et comprenant 2 micro à 2 différentes distance des conferencier , le probleme sera de synchroniser les deux paroles, ensuite de règler automatiquement le son.
+
+https://share.coursera.org/wiki/index.php/ML:Main
+
+La régression linéaire 
+https://www.coursera.org/learn/machine-learning/supplement/Mc0tF/linear-regression-with-one-variable
+
+Wiki sur le tp régression linéaire
+https://share.coursera.org/wiki/index.php/ML:Linear_Regression_with_One_Variable
+
+Table des symboles mathématiques
+https://fr.wikipedia.org/wiki/Table_des_symboles_math%C3%A9matiques
+
+Apprendre à lire les symboles mathématiques
+https://fr.wikiversity.org/wiki/Apprendre_%C3%A0_lire_les_expressions_math%C3%A9matiques/Symboles_de_types_lettres
+
+http://chemwiki.ucdavis.edu/Under_Construction/VV%3A_Mathematical_Concepts/Linear_Regression_in_Matlab
+
+https://www.youtube.com/user/MatLabTutorialFull/videos
+https://github.com/quinnliu/machineLearning/tree/master/supervisedLearning/linearRegressionInMultipleVariables
+
+http://www.allprogrammingtutorials.com/tutorials/introduction-to-machine-learning.php
+
+http://ime.math.arizona.edu/g-teams/Profiles/QT/Calc/ai_introduction.pdf
+
+Configurer son path sur matlab
+path(path,/home/username/machinelearning/stanford/')
+
+Rappel, lorsque nous avons affaire à un problème de régression , nous prenons des variables d'entrées et essayons d'assigner une cartographie des variables de sorties sur une une fonction de résultat dite , "continue".
+La régression linéaire avec 1 variable  est aussi appellée régression linéaire univariée. 
+Celle-ci est utilisée lorsque vous souhaitez prédire une valeur d'entrée solitaire de sortie (seule), à partir d'une valeur d'entrée. C'est donc un cas d'apprentissage supervisé, donc nous avons déjà une idée des causes et effets des entrées/sorties .
+
+La fonction hypothétique
+
+theta0 de x est égal à theta0 plus theta1 pour récupérer notre valeur de sortie y. En d'autres mots nous essayons de créer une fonction appellée theta0 qui est capable de cartographier nos valeurs d'entrée (les x) à nos valeurs de sortie (les y).
+Example
+x(input)	y(output)
+0		4
+1		7
+2		7
+3		8
+Désormais nous pouvons faire une estimation au hasard de ce que la fonction theta0 =2 et theta1=2 . La fonction hypothétique deviendra alors [screenshot]
+Donc pour l'entrée 1 de notre hypothèse, y sera 4.
+
+La fonction coût
+Nous pouvons mesurer la précision de notre fonction hypothètique en utilisant une fonction coût. Celle-ci récupère la moyenne (plus optimisée= de tout les résultats de l'hypothèse avec les entrées de x comparées aux sorties de y.
+Voici la fonction hypothétique coût.
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
