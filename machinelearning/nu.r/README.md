@@ -8,7 +8,7 @@ NU is for not understood. A corpus frequency analysis script, for french, englis
 #############################################################################
 ###                  NU.r WORD FREQUENCY ANALYSIS SCRIPT                  ###
 #############################################################################
-###         Thibaut LOMBARD. 3letters . August 2015 - 2017                ###
+###         Thibaut LOMBARD. 3letters . August 2015 - 2016                ###
 #############################################################################
 ### NU.R is for not understood,  is a commandline tool for generating     ###
 ### Frequency Analysis such as :                                          ###
