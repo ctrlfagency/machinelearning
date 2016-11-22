@@ -25,7 +25,7 @@ if("-help" %in% args) {
     						  Frequency Analysis Script - Nu.r
  		Be careful, don\'t forget to write the command with the right order into the commandline.
       Arguments:
-      	-p=	   	- URL or full path of the file to analyse, ie:./FAS.r -p=http://siteweb.tld/data.txt
+      	-p=	   	- URL or full path of the file to analyse, ie:./NU.r -p=http://siteweb.tld/data.txt
 		-typei=		- The type of input to analyse (ie : url, text, file)
       	-wd= 		- Configure the working directory (advised to let this argument by default if you do not want to change the script execution 				  directory) ie : -wd=/your/path/directory/
       	-pngfw= 	- Wordcloud png output filename, ie : -pngfw=wordcloud.png
