@@ -4,7 +4,6 @@ library(ggplot2)
 library(ggthemes)
 library(tm)
 library(SnowballC) 
-library(RWeka) 
 library(reshape)
 # Copyleft : Thibaut LOMBARD
 # input the raw corpus raw text
