@@ -13,10 +13,7 @@ packages <- function(paquets){
         install.packages(new.paquets, dependencies = TRUE, repos='http://cran.rstudio.com/')
     sapply(paquets, require, character.only = TRUE)
 }
-library(qdap)
-install.packages("rattle",dependencies=c("Depends","Suggests‌​"))
-
-packages(c("ggplot2", "ggthemes", "tm","qdap","RWeka","reshape","SnowballC"))
+packages(c("ggplot2", "ggthemes", "tm", "RWeka","reshape","SnowballC"))
 ```
 ## Usage
 In order to create an heatmap : 
