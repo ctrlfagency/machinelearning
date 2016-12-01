@@ -225,7 +225,7 @@ names(argsL) <- argsDF$V1
 	}
 
 rquery.wordcloud <- function(x, type=c("text", "url", "file"), 
-                          lang=c("english", "french", "arabic"), excludeWords=NULL, 
+                          lang=c("spanish","english", "french", "arabic"), excludeWords=NULL, 
                           textStemming=FALSE,  colorPalette="Dark2",
                           min.freq=minfreq, max.words=maxword)
 { 
