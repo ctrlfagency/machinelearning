@@ -3,7 +3,7 @@ This is a small proof of concept for generating data visualisation from a corpus
  
 ## Installation
 ```sh
-sudo apt-get install r-cran-rjava
+sudo apt-get install r-cran-rjava libgsl0-dev
 ```
 Install depedencies here : 
 ```
@@ -13,7 +13,8 @@ packages <- function(paquets){
         install.packages(new.paquets, dependencies = TRUE, repos='http://cran.rstudio.com/')
     sapply(paquets, require, character.only = TRUE)
 }
-packages(c("ggplot2", "ggthemes", "tm", "RWeka","reshape","SnowballC"))
+packages(c("ggplot2", "ggthemes", "tm", "reshape","SnowballC","NMF","RColorBrewer"))
+
 ```
 ## Usage
 In order to create an heatmap : 
@@ -25,7 +26,11 @@ For making the barchart :
 ```
 Rscript freqbarchart.r 
 ```
+In order to create an annotated heatmap, and cluster dendrogram : 
+```
+Rscript heatmap.r
 
+```
 ## Contact
 Thibaut LOMBARD,
  **contact@thibautlombard.space** , 
