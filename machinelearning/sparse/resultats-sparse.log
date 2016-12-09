@@ -1,0 +1,94 @@
+[1] "*************************"
+[1] "Les Matrices"
+[1] "*************************"
+[1] "                         "
+[1] "*************************************"
+[1] "La matrice Term document maTdm"
+[1] "*************************************"
+<<DocumentTermMatrix (documents: 3, terms: 11)>>
+Non-/sparse entries: 13/20
+Sparsity           : 61%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+[1] "*************************************"
+[1] "parsimonie removeSparseTerms a  50%"
+[1] "*************************************"
+<<DocumentTermMatrix (documents: 3, terms: 2)>>
+Non-/sparse entries: 4/2
+Sparsity           : 33%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+[1] "*************************************"
+[1] "parsimonie removeSparseTerms a  90%"
+[1] "*************************************"
+<<DocumentTermMatrix (documents: 3, terms: 11)>>
+Non-/sparse entries: 13/20
+Sparsity           : 61%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+[1] "**************************************************************"
+[1] "Inspection de la matrice Term document maTdm avec as.matrix()"
+[1] "**************************************************************"
+<<DocumentTermMatrix (documents: 3, terms: 11)>>
+Non-/sparse entries: 13/20
+Sparsity           : 61%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+    Terms
+Docs avec bâchez dans est fakir fakir. les matrice pyjamas queue wagon-taxi
+   1    1      1    0   0     0      1   1       0       1     1          1
+   2    0      0    0   0     0      0   0       1       0     0          1
+   3    0      0    1   1     1      0   0       1       0     0          0
+[1] "**************************************************************"
+[1] "Inspection de la parsimonie removeSparseTerms a  50%"
+[1] "**************************************************************"
+<<DocumentTermMatrix (documents: 3, terms: 2)>>
+Non-/sparse entries: 4/2
+Sparsity           : 33%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+
+    Terms
+Docs matrice wagon-taxi
+   1       0          1
+   2       1          1
+   3       1          0
+[1] "**************************************************************"
+[1] "Inspection de la parsimonie removeSparseTerms a  90%"
+[1] "**************************************************************"
+<<DocumentTermMatrix (documents: 3, terms: 11)>>
+Non-/sparse entries: 13/20
+Sparsity           : 61%
+Maximal term length: 10
+Weighting          : term frequency (tf)
+
+    Terms
+Docs avec bâchez dans est fakir fakir. les matrice pyjamas queue wagon-taxi
+   1    1      1    0   0     0      1   1       0       1     1          1
+   2    0      0    0   0     0      0   0       1       0     0          1
+   3    0      0    1   1     1      0   0       1       0     0          0
+[1] "**************************************************************"
+[1] "Distance Matrix de b"
+[1] "**************************************************************"
+               avec   bâchez     dans      est    fakir   fakir.      les
+bâchez     0.000000                                                      
+dans       1.414214 1.414214                                             
+est        1.414214 1.414214 0.000000                                    
+fakir      1.414214 1.414214 0.000000 0.000000                           
+fakir.     0.000000 0.000000 1.414214 1.414214 1.414214                  
+les        0.000000 0.000000 1.414214 1.414214 1.414214 0.000000         
+matrice    1.732051 1.732051 1.000000 1.000000 1.000000 1.732051 1.732051
+pyjamas    0.000000 0.000000 1.414214 1.414214 1.414214 0.000000 0.000000
+queue      0.000000 0.000000 1.414214 1.414214 1.414214 0.000000 0.000000
+wagon-taxi 1.000000 1.000000 1.732051 1.732051 1.732051 1.000000 1.000000
+            matrice  pyjamas    queue
+bâchez                               
+dans                                 
+est                                  
+fakir                                
+fakir.                               
+les                                  
+matrice                              
+pyjamas    1.732051                  
+queue      1.732051 0.000000         
+wagon-taxi 1.414214 1.000000 1.000000
