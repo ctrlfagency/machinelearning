@@ -45,22 +45,22 @@ print('*************************************')
 maTdm
 
 # ------------------------------------
-# Parsimonie removeSparseTerms à 50%
+# parcimonie removeSparseTerms à 50%
 c <- removeSparseTerms(maTdm, 0.5)
 # ------------------------------------
 
 print('*************************************')
-print('parsimonie removeSparseTerms a  50%')
+print('parcimonie removeSparseTerms a  50%')
 print('*************************************')
 c
 
 # ------------------------------------
-# Parsimonie removeSparseTerms a  90%
+# parcimonie removeSparseTerms a  90%
 d <- removeSparseTerms(maTdm, 0.9)
 # ------------------------------------
 
 print('*************************************')
-print('parsimonie removeSparseTerms a  90%')
+print('parcimonie removeSparseTerms a  90%')
 print('*************************************')
 d
 
@@ -81,7 +81,7 @@ ch <- as.matrix(removeSparseTerms(maTdm, 0.5))
 # ------------------------------------
 
 print('**************************************************************')
-print('Inspection de la parsimonie removeSparseTerms a  50%')
+print('Inspection de la parcimonie removeSparseTerms a  50%')
 print('**************************************************************')
 inspect(c)
 
@@ -91,7 +91,7 @@ dh <- as.matrix(removeSparseTerms(maTdm, 0.9))
 # ------------------------------------
 
 print('**************************************************************')
-print('Inspection de la parsimonie removeSparseTerms a  90%')
+print('Inspection de la parcimonie removeSparseTerms a  90%')
 print('**************************************************************')
 inspect(d)
 
