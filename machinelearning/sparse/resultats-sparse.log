@@ -11,7 +11,7 @@ Sparsity           : 61%
 Maximal term length: 10
 Weighting          : term frequency (tf)
 [1] "*************************************"
-[1] "parcimonie removeSparseTerms a  50%"
+[1] "parsimonie removeSparseTerms a  50%"
 [1] "*************************************"
 <<DocumentTermMatrix (documents: 3, terms: 2)>>
 Non-/sparse entries: 4/2
@@ -19,7 +19,7 @@ Sparsity           : 33%
 Maximal term length: 10
 Weighting          : term frequency (tf)
 [1] "*************************************"
-[1] "parcimonie removeSparseTerms a  90%"
+[1] "parsimonie removeSparseTerms a  90%"
 [1] "*************************************"
 <<DocumentTermMatrix (documents: 3, terms: 11)>>
 Non-/sparse entries: 13/20
@@ -40,7 +40,7 @@ Docs avec bâchez dans est fakir fakir. les matrice pyjamas queue wagon-taxi
    2    0      0    0   0     0      0   0       1       0     0          1
    3    0      0    1   1     1      0   0       1       0     0          0
 [1] "**************************************************************"
-[1] "Inspection de la parcimonie removeSparseTerms a  50%"
+[1] "Inspection de la parsimonie removeSparseTerms a  50%"
 [1] "**************************************************************"
 <<DocumentTermMatrix (documents: 3, terms: 2)>>
 Non-/sparse entries: 4/2
@@ -54,7 +54,7 @@ Docs matrice wagon-taxi
    2       1          1
    3       1          0
 [1] "**************************************************************"
-[1] "Inspection de la parcimonie removeSparseTerms a  90%"
+[1] "Inspection de la parsimonie removeSparseTerms a  90%"
 [1] "**************************************************************"
 <<DocumentTermMatrix (documents: 3, terms: 11)>>
 Non-/sparse entries: 13/20
@@ -68,7 +68,35 @@ Docs avec bâchez dans est fakir fakir. les matrice pyjamas queue wagon-taxi
    2    0      0    0   0     0      0   0       1       0     0          1
    3    0      0    1   1     1      0   0       1       0     0          0
 [1] "**************************************************************"
-[1] "Distance Matrix de b"
+[1] "Distance Matrix de b Cosine et Euclidienne"
+[1] "**************************************************************"
+[1] "**************************************************************"
+[1] "Distance Matrix de b cosine correlation (Eisen et al., 1998)"
+[1] "**************************************************************"
+                avec    bâchez      dans       est     fakir    fakir.
+bâchez     0.0000000                                                  
+dans       1.0000000 1.0000000                                        
+est        1.0000000 1.0000000 0.0000000                              
+fakir      1.0000000 1.0000000 0.0000000 0.0000000                    
+fakir.     0.0000000 0.0000000 1.0000000 1.0000000 1.0000000          
+les        0.0000000 0.0000000 1.0000000 1.0000000 1.0000000 0.0000000
+matrice    1.0000000 1.0000000 0.2928932 0.2928932 0.2928932 1.0000000
+pyjamas    0.0000000 0.0000000 1.0000000 1.0000000 1.0000000 0.0000000
+queue      0.0000000 0.0000000 1.0000000 1.0000000 1.0000000 0.0000000
+wagon-taxi 0.2928932 0.2928932 1.0000000 1.0000000 1.0000000 0.2928932
+                 les   matrice   pyjamas     queue
+bâchez                                            
+dans                                              
+est                                               
+fakir                                             
+fakir.                                            
+les                                               
+matrice    1.0000000                              
+pyjamas    0.0000000 1.0000000                    
+queue      0.0000000 1.0000000 0.0000000          
+wagon-taxi 0.2928932 0.5000000 0.2928932 0.2928932
+[1] "**************************************************************"
+[1] "Distance Matrix de b Euclidienne"
 [1] "**************************************************************"
                avec   bâchez     dans      est    fakir   fakir.      les
 bâchez     0.000000                                                      
