@@ -1,0 +1,198 @@
+Text-Mining Tips & Tricks : removeSparseTerms
+========================================================
+author: Thibaut LOMBARD
+date: November/January 2016/2017 
+autosize: true
+
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) 
+knitr::opts_chunk$set(fig.width=10)
+```
+<style>
+body {
+	color: #f4f1de;
+	font-size: 1em;
+  background: #feffff;
+    background: -moz-radial-gradient(center, ellipse cover, #feffff 0%, #ffffff 50%, #e3e3e3 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, #feffff 0%,#ffffff 50%,#e3e3e3 100%);
+    background: radial-gradient(ellipse at center, #feffff 0%,#ffffff 50%,#e3e3e3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#e3e3e3',GradientType=1 );
+}
+}
+</style>
+
+
+Who Am I
+========================================================
+type: sub-section
+Founder of **Ctrl + F Agency** (and all stuff related)
+- Web/mobile Dev,
+- Data science,
+- Research
+- Teaching
+
+Age : 30 Years Old
+
+Getting Started
+=======================================================
+
+* OrangePi And Ubuntu : [tutorial](https://blog.thibautlombard.space/installation-de-ubuntu-15-04-sur-orangepi-pc)
+
+* Build and install Rstudio on OrangePI [HowTo](https://ctrlfagency.com/install-rstudio-ubuntu-armhf-architecture/)
+
+![Rstudio-On-ctrlfagencyOS](images/2.png)
+
+What is it ?
+========================================================
+## Sparsity 
+<font size=5>-- a sparse matrix is a matrix in which most of the elements are zero. The number of zero-valued elements divided by the total number of elements (e.g., m × n for an m × n matrix) is called the sparsity of the matrix (which is equal to 1 minus the density of the matrix) such as density measurement.</font> 
+
+<font size=5>-- sparsity refers to the threshold of relative document frequency for a term, above which the term will be removed. Relative document frequency here means a proportion. In removeSparseTerms the sparsity is smaller as it approaches 1.0. </font>
+
+
+Where
+========================================================
+
+#### Formula
+
+![sparsity formula](images/0.png)
+
+- N is the number of documents 
+- j is the term(s)
+
+Usage of sparses formulas
+========================================================
+### Useful for
+- [Convolutionnal neural network](https://fr.wikipedia.org/wiki/R%C3%A9seau_neuronal_convolutif)
+- Resolving Differential equation problems
+
+### Used into
+- Auto-encoders 
+- Natural Language Processing
+- Image processing
+- Suggest engines (semantic)
+
+
+Libraries used 
+========================================================
+## [For Sparse.r](https://raw.githubusercontent.com/ctrlfagency/machinelearning/master/machinelearning/sparse/sparse.r)
+
+```{r eval=FALSE, echo=TRUE} 
+packages <- function(paquets)
+{
+new.paquets <- paquets[!(paquets %in% installed.packages()[, "Package"])] if(length(new.paquets))
+install.packages(new.paquets, dependencies = TRUE, repos='http://cran.rstudio.com/')
+sapply(paquets, require, character.only = TRUE)
+}
+packages(c("NLP", "tm", "NMF"))
+```
+
+========================================================  
+# We create a matrix
+```{r message=FALSE, echo=FALSE}
+library(NLP)
+library(tm)
+library(NMF)
+library(proxy)
+monTexte <- c("Bâchez la queue du wagon-taxi avec les pyjamas du fakir.",
+              "la matrice du wagon-taxi",
+              "le fakir est dans la matrice")
+monCorpus <- Corpus(VectorSource(monTexte))
+maTdm <- DocumentTermMatrix(monCorpus, control = list(minWordLength = 1))
+```
+
+```{r eval=FALSE, echo=TRUE} 
+monTexte <- c("Bâchez la queue du wagon-taxi avec les pyjamas du fakir.",
+              "la matrice du wagon-taxi",
+              "le fakir est dans la matrice")
+monCorpus <- Corpus(VectorSource(monTexte))
+maTdm <- DocumentTermMatrix(monCorpus, control = list(minWordLength = 1))
+```
+
+========================================================  
+# And inspect it
+```{r eval=TRUE, echo=TRUE, size=5} 
+inspect(maTdm)
+```
+
+========================================================  
+# Sparsity at 50%
+```{r eval=TRUE, echo=TRUE} 
+c <- removeSparseTerms(maTdm, 0.5)
+inspect(c)
+```
+
+========================================================  
+# Sparsity at 90%
+```{r eval=TRUE, echo=TRUE} 
+d <- removeSparseTerms(maTdm, 0.9)
+inspect(d)
+```
+
+```{r eval=TRUE, echo=FALSE} 
+ch <- as.matrix(removeSparseTerms(maTdm, 0.5))
+b <- as.matrix(maTdm)
+dh <- as.matrix(removeSparseTerms(maTdm, 0.9))
+```
+
+Bluiding A heatmap 
+========================================================  
+
+```{r eval=FALSE, echo=TRUE} 
+b <- as.matrix(maTdm)
+ch <- as.matrix(removeSparseTerms(maTdm, 0.5))
+dh <- as.matrix(removeSparseTerms(maTdm, 0.9))
+aheatmap(b, filename = "sparse-heatmap-matrix.png")
+aheatmap(ch, filename = "sparse-heatmap-50percent.png")
+aheatmap(dh, filename = "sparse-heatmap-99percent.png")
+```
+
+Heatmap results for No Sparsity 1/3
+========================================================  
+![Image no sparsity aheatmap](images/3.png)
+
+Heatmap results or 50% Sparsity 2/3
+========================================================  
+![Image no sparsity aheatmap](images/4.png)
+
+Heatmap results for 90% Sparsity 3/3
+========================================================  
+![Image no sparsity aheatmap](images/5.png)
+
+Cosine distance Matrix
+========================================================  
+### With cosine Eisen & al. (1998)
+![Image no sparsity aheatmap](images/6.png)
+```{r}
+distance_cosine <- dist(as.matrix(t(b)), method = "cosine")
+distance_cosine
+```
+
+========================================================  
+### Cosine distance dendrogram
+![Image no sparsity aheatmap](images/7.png)
+
+Euclidian distance Matrix
+======================================================== 
+### With euclidean formula
+![euclidian distance](images/8.png)
+```{r}
+distance_euclidian <- dist(as.matrix(t(b)), method = "euclidean")
+distance_euclidian
+```
+
+========================================================  
+### Euclidean distance dendrogram
+![Image no sparsity aheatmap](images/9.png)
+
+Dendrogram HowTo (hclust)
+========================================================  
+```{r eval=FALSE, echo=TRUE} 
+fit <- hclust(distMatrix, method = "ward.D")
+png(filename="sparse-clust.png",width=800,height=600)
+plot(fit)
+rect.hclust(fit, k = 3,border="blue")
+```
+
+========================================================  
+# Thank you
