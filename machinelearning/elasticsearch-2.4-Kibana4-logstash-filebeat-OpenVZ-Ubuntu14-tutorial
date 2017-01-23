@@ -1,0 +1,219 @@
+Installation de elasticsearch 2.4 sur OpenVZ
+Sur version Ubuntu 14 VPS blueVm, ramnode etc...
+-------------------------------------------------
+
+Installation des dépendances python
+apt-get install software-properties-common python3-software-properties python-software-properties
+
+Installation de JAVA8
+sudo su &&
+add-apt-repository -y ppa:webupd8team/java && apt-get update && apt-get -y install oracle-java8-installer
+
+Installation de elasticsearch 2.4
+----------------------------------
+echo "deb https://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list
+
+wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.4.0/elasticsearch-2.4.0.deb && sudo dpkg -i elasticsearch-2.4.0.deb
+
+sudo update-rc.d elasticsearch defaults 95 10
+
+Désormais les fichiers de configuration se situent  dans les dossier /etc/elasticsearch
+Les fichiers sont les suivants 
+
+elasticsearch.yml : qui correspond à la configuration du serveur
+
+logging.yml : qui apport une configuration pour les logs (il n'est pas nécessaire de le modifier pour débuter), vous trouverez les résultats dans /var/log/elasticsearch par défault.
+
+
+On modifie le ficher /etc/elasticsearch/elasticsearch.yml
+sudo nano /etc/elasticsearch/elasticsearch.yml
+
+Il faut décommenter  node.name et cluster.name
+node.name: "Gotham"
+cluster.name: Batman
+
+Un autre point important est de configurer le serveur en master ou slave. Lorsque plusieurs déploiement avec de multiples clusters il est conseiller d'avoir plus d'un master dédié. Typiquement un "master" ne stocke pas de données et ne créé pas d'indexes.
+
+Si on a une seule et unique node il est conseillé de laisser cette option commentée pour qu'elle garde son option à true. Pour esclave mettre à false..
+node.master: false
+
+Une autre option importante est la variable node.data qui détermine si une node va stocker des données ou pas. En laissant cette variable par défaut elle le fera true. Il existe 2 cas pour choisir de stocker les données sur la node. La première est d'avoir un "master" dédié comme mentionné précédemment, la seconde est utilisée  pour aller chercher des data d'autres nodes afin d'aggrèger les résultats. Dans le dernier cas la node servira alors de "search load balancer".
+
+Donc cette option node.data doit être laissée commentée si vous utilisez une seul node  (défaut : true). Pour désactiver le stockage des données locales configurer à false.
+
+Deux autres importantes options sont index.number_of_shards et index.number_of_replicas. La première option détermine le nombre de segments (shards) de l'indexation. Le second critère détermine le nombre de répliques qui seront alors distribuées dans le cluster. Avoir plus de shards permets d'améliorer la performance de l'indexation de data dans les index, lorsqu'avoir plein de répliques améliorera la rapidité des recherches.
+
+En prenant en compte qu'on utilisera elasticsearch pour une seule node , il est préferrable de commencer avec 1 shard et aucune répliques.
+index.number_of_shards: 1
+index.number_of_replicas: 0
+
+La dernière variable intéressantes est path.data qui détermine le fichier de destination (de sortie) où les data seront stockées. le chemin par défaut est /var/lib/elasticsearch . Dans un environnement de production il est conseillé d'utiliser une partition dédié au stockage, où un point de montage précis (data isolation -> hdfs).
+
+Désactiver aussi les scripts dynamiques en ajoutant cette ligne (pas nécessaire):
+script.disable_dynamic: true
+
+On peut désormais redémmarer elk
+service elasticsearch restart
+
+Ajout 'un utilisateur 
+sudo adduser --home /home/elasticsearch --disabled-password --system --group elasticsearch
+
+sudo vim /etc/security/limits.conf
+elasticsearch     -    nofile    32000
+elasticsearch     -    memlock    unlimited
+
+nano  /etc/pam.d/su
+session    required   pam_limits.so
+
+
+Installation de logstash
+sudo apt-get install apt-transport-https
+
+echo "deb https://packages.elastic.co/logstash/2.3/debian stable main" | sudo tee -a /etc/apt/sources.list
+
+sudo apt-get update
+apt-get install --reinstall logstash
+service logstash restart
+sudo update-rc.d logstash defaults 96 9
+
+Installation de kibana
+sudo apt-get -y install apache2
+service apache2 restart
+apt-get update 
+wget https://download.elastic.co/kibana/kibana/kibana-4.5.0-linux-x64.tar.gz
+tar xf kibana*
+mv kibana-4.5.0-linux-x64 /opt/kibana
+cd ~
+sudo wget --output-document="/etc/init.d/kibana" https://raw.githubusercontent.com/akabdog/scripts/master/kibana4_init
+sudo chmod +x /etc/init.d/kibana
+sudo update-rc.d kibana defaults 96 9
+
+Installation de filebeat 
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.1.2-amd64.deb
+sudo dpkg -i filebeat-5.1.2-amd64.deb
+
+configurer 
+https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-configuration.html
+
+service filebeat start
+curl -X GET 'http://127.0.0.1:9900'
+curl -X GET 'http://localhost:9900'
+curl -X POST 'http://es_username:motdepasse@127.0.0.1:9900/tutorial/helloworld/1' -d '{ "message": "Hello World!" }'
+
+Dans 
+nano /etc/filebeat/filebeat.yml
+Modifier log en syslog
+input_type: syslog
+
+décommentez logstash
+et 
+hosts ["127.0.0.1:5000"]
+
+nano /etc/logstash/conf.d/02-beats-input.conf
+input {
+  beats {
+    port => 5000
+    ssl => true
+   # ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+    # ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+  }
+}
+
+
+sudo nano /etc/logstash/conf.d/10-syslog-filter.conf
+filter {
+  if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    syslog_pri { }
+    date {
+      match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    }
+  }
+}
+sudo nano /etc/logstash/conf.d/30-elasticsearch-output.conf
+output {
+  elasticsearch {
+    hosts => ["localhost:9900"]
+    sniffing => true
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+    document_type => "%{[@metadata][type]}"
+  }
+}
+
+sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/
+
+service logstash start
+sudo update-rc.d logstash defaults 96 9
+
+cd ~
+curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
+unzip beats-dashboards-*.zip
+
+cd beats-dashboards-*
+./load.sh
+These are the index patterns that we just loaded:
+
+[packetbeat-]YYYY.MM.DD
+[topbeat-]YYYY.MM.DD
+[filebeat-]YYYY.MM.DD
+[winlogbeat-]YYYY.MM.DD
+When we start using Kibana, we will select the Filebeat index pattern as our default.
+
+Load Filebeat Index Template in Elasticsearch
+
+cd ~
+curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json
+curl -XPUT 'http://localhost:9900/_template/filebeat?pretty' -d@filebeat-index-template.json
+
+(extrait du tuto https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-ubuntu-14-04#load-filebeat-index-template-in-elasticsearch)
+
+sudo service filebeat restart
+sudo update-rc.d filebeat defaults 95 10
+
+curl -XGET 'http://localhost:9900/filebeat-*/_search?pretty'
+
+cd /usr/share/elasticsearch
+sudo bin/plugin install license
+sudo bin/plugin install shield
+
+extrait de https://www.elastic.co/guide/en/shield/current/installing-shield.html
+nano /opt/kibana/config/kibana.yml
+elasticsearch.username: "kibana4-server"
+elasticsearch.password: "motdepasse"
+curl -u es_username -XGET 'http://localhost:9900/_plugin/elasticsearch-migration'
+curl -u es_username -XPOST 'http://localhost:9900/_shield/user/kibana-server' -d '{"password" : "motdepasse", "roles" : [ "kibana4_server"]}'
+
+Créé un admin
+https://www.elastic.co/guide/en/shield/current/enable-basic-auth.html
+/usr/share/elasticsearch# bin/shield/esusers useradd es_username -r admin
+tester avec 
+curl -u es_username -XGET 'http://localhost:9900/'
+ 
+en cas d'erreur upgrader 
+Invalid index name [_shield], must not start with '_'
+
+Migrer avec 
+https://github.com/elastic/elasticsearch-migration/tree/2.x
+http://localhost:9900/_plugin/elasticsearch-migration
+
+En cas d'erreur à la réinstallation sur openVz 
+dpkg: error while cleaning up:
+ subprocess installed post-installation script returned error exit status 1
+Errors were encountered while processing:
+ elasticsearch
+ cd /var/lib/dpkg/info
+rm *.postinst
+apt-get --force-yes install elasticsearch
+
+
+https://www.oreilly.com/learning/a-guide-to-elasticsearch-5-and-the-elkelastic-stack
+démarrer elasticsearch en mode debug
+nano /etc/init.d/elasticsearch
+set -x
+
+
