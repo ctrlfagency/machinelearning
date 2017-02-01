@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>FAS.R GUI</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script src="jquery.min.js"></script>
+
+
+</head>
+<body>
+<form>
+
+<INPUT name="url" id="url" Type="text" placeholder="http://website.tld/">
+<INPUT name="correlrate" id="correlrate" Type="text" placeholder="0.01">
+<INPUT name="correlterm" id="correlterm" Type="text" placeholder="terme de correlation">
+<select id="lng" onchange="choix()"> 
+<option value="french">français</option>
+<option value="english">Anglais</option>
+<option value="arabic">Arabe</option>
+</select>
+
+<INPUT name="BUTTON" Type="BUTTON" onClick="choix()" VALUE="tester">
+</form>
+<script>
+
+function choix()
+{
+var url = document.getElementById('url').value;
+var correlrate = document.getElementById('correlrate').value;
+var correlterm = document.getElementById('correlterm').value;
+var element = document.getElementById('resultatjsonphp');
+var lng = document.getElementById('lng').value;
+
+$.ajax({
+    		url : "http://localhost/wordcloud/index.php?p="+url+"&mode=poor&correlrate="+correlrate+"&correlterm="+correlterm+"&lng="+lng+"&callback=?",
+		    dataType:"jsonp",
+		    jsonp:"callback",
+		    success:function(data)
+		    {
+
+		element.innerHTML = '<b>Addresse du site:</b> ' + url + '<br><b>Quantité des mots:</b> ' + data.tableoutput + '<br><b>Correlation (avec indice de correlation):</b><br> ' + data.correlation + '<br><b>Table fréquentielle:</b> <br>' + data.freqtable +  '<br><b>Graphique en barres: </b><br><img src="' + data.barchart + '" /><br><b>Nuage de mots: </b><br><img src="' + data.wordcloud + '" /><br>';
+				element.className = 'pass';
+		    }
+		});
+}
+</script>
+<style type="text/css">
+	#resultatjsonphp { border: 1px solid; padding: 1em; }
+	.pass { background: lightgreen; border-color: #468847; padding: 1em; }
+</style>
+<p id="resultatjsonphp">
+1 . Saisissez l'addresse du site ou du fichier texte.<br>
+2 . Saisissez l'indice de corrrelation (Entre 0 et 1) par exemple 0.33 <br>
+3 . Choisissez le terme de correlation.<br>
+4 . Choisissez la langue  du texte à analyser.<br>
+</p>
+
+
+</body>
+</html>
