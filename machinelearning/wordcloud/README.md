@@ -5,4 +5,4 @@ An Rscript, wordcloud PHP class , tested to link Rscript with php. Used with [NU
 DWYDBWI (Do What You Do Best With It)
 
 [comment]: #
-    [Nu.r]: <https://github.com/ctrlfagency/machinelearning/tree/master/machinelearning/nu.r>
+    [NU.r]: <https://github.com/ctrlfagency/machinelearning/tree/master/machinelearning/nu.r>
